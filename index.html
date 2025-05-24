@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+  <html lang="zh-CN">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>厄尔尼诺现象演示</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <h1 class="title">厄尔尼诺现象演示</h1>
+
+    <!-- 添加控制按钮 -->
+    <div class="controls">
+      <button id="normalBtn" class="control-btn active">正常年份</button>
+      <button id="elninoBtn" class="control-btn">厄尔尼诺</button>
+    </div>
+
+    <div class="container">
+      <!-- 正常年份 -->
+      <div class="cube" id="normalCube">
+        <div class="face front"></div>
+        <div class="face equator">
+          <div class="equator-line"></div>
+          <div class="equator-text">赤道</div>
+        </div>
+        <div class="face ocean">
+          <div class="ocean-warm"></div>
+          <div class="ocean-cold"></div>
+          <!-- 添加多个wind元素，水平排布 -->
+          <div class="wind-container">
+            <div class="wind wind-1"></div>
+            <div class="wind wind-2"></div>
+            <div class="wind wind-3"></div>
+            <div class="wind wind-4"></div>
+            <div class="wind wind-5"></div>
+          </div>
+        </div>
+        <div class="face top"></div>
+        <!-- 数据和箭头图层 -->
+        <div class="overlay">
+          <!-- 添加箭头、云等元素 -->
+          <div class="cloud"></div>
+          <div class="sun"></div>
+          <div class="arrow up"></div>
+          <div class="arrow right"></div>
+          <div class="arrow left"></div>
+          <div class="arrow down"></div>
+        </div>
+      </div>
+
+      <!-- 厄尔尼诺年份 -->
+      <div class="cube" id="elninoCube" style="display: none;">
+        <div class="face front"></div>
+        <div class="face equator">
+          <div class="equator-line"></div>
+          <div class="equator-text">赤道</div>
+        </div>
+        <div class="face ocean">
+          <div class="ocean-warm elnino-warm"></div>
+          <div class="ocean-cold elnino-cold"></div>
+          <!-- 添加多个wind元素，水平排布 -->
+          <div class="wind-container elnino-wind-container">
+            <div class="wind wind-1 elnino-wind-1"></div>
+            <div class="wind wind-2 elnino-wind-2"></div>
+            <div class="wind wind-3 elnino-wind-3"></div>
+            <div class="wind wind-4 elnino-wind-4"></div>
+            <div class="wind wind-5 elnino-wind-5"></div>
+          </div>
+        </div>
+        <div class="face top"></div>
+        <!-- 数据和箭头图层 -->
+        <div class="overlay">
+          <!-- 添加箭头、云等元素 -->
+          <div class="cloud elnino-cloud"></div>
+          <div class="sun elnino-sun"></div>
+          <div class="arrow up elnino-up"></div>
+          <div class="arrow right elnino-right"></div>
+          <div class="arrow left elnino-left"></div>
+          <div class="arrow down elnino-down"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

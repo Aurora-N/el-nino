@@ -1,0 +1,696 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.title {
+  text-align: center;
+  margin: 20px;
+}
+
+/* 控制按钮样式 */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.control-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.control-btn.active {
+  background: linear-gradient(135deg, #448bd3, #0a4585);
+  color: white;
+  border-color: #0a4585;
+}
+
+.control-btn.active:hover {
+  background: linear-gradient(135deg, #5a9de3, #1a5595);
+}
+
+.container {
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+  padding-top: 100px;
+}
+
+.cube {
+  position: relative;
+  width: 850px;
+  height: 250px;
+  transform-style: preserve-3d;
+  transform: rotateX(-30deg);
+}
+
+.face {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  border: 2px solid #333;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+/* 前面 */
+.front {
+  background: linear-gradient(to bottom, #448bd3, #0a4585);
+  width: 850px;
+  height: 100px;
+  transform: translateZ(250px) translateY(150px);
+}
+
+/* 顶面 */
+.top {
+  background-image: url('assets/surface-top.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 850px;
+  height: 500px;
+  transform: rotateX(90deg) translateZ(100px);
+}
+
+.ocean {
+  background: transparent;
+  width: 850px;
+  height: 500px;
+  transform: rotateX(90deg) translateZ(101px);
+}
+
+.equator {
+  background: transparent;
+  width: 850px;
+  height: 500px;
+  transform: rotateX(90deg) translateZ(101px);
+}
+
+.equator-line {
+  position: absolute;
+  width: 100%;
+  height: 0px;
+  top: 250px;
+  left: 0;
+  border-bottom: 2px solid #ffffff;
+}
+
+.equator-text {
+  position: absolute;
+  color: #ffffff;
+  top: 220px;
+  right: 10px;
+}
+
+.ocean-warm {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  top: 200px;
+  left: 170px;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  background: radial-gradient(ellipse at center, 
+    rgba(255, 89, 0, 0.8) 0%,
+    rgba(255, 89, 0, 0.6) 30%,
+    rgba(255, 89, 0, 0.4) 60%,
+    rgba(255, 89, 0, 0.2) 80%,
+    rgba(255, 89, 0, 0.1) 100%);
+  animation: warm-flow 8s ease-in-out infinite;
+}
+
+.ocean-cold {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  top: 200px;
+  right: 170px;
+  border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
+  background: radial-gradient(ellipse at center,
+    rgba(0, 179, 255, 0.8) 0%,
+    rgba(0, 179, 255, 0.6) 30%,
+    rgba(0, 179, 255, 0.4) 60%,
+    rgba(0, 179, 255, 0.2) 80%,
+    rgba(0, 179, 255, 0.1) 100%);
+  animation: cold-flow 10s ease-in-out infinite reverse;
+}
+
+.wind {
+  background-image: url('assets/se-wind.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  width: 70px;
+  height: 110px;
+  font-size: 70px;
+  font-weight: 100;
+}
+
+/* Wind容器样式 - 水平排布 */
+.wind-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50px;
+  left: 70px;
+  pointer-events: none;
+}
+
+/* 各个wind元素的水平位置 - 更紧凑的排布 */
+.wind-1 {
+  top: 250px;
+  left: 250px;
+  animation: wind-sway-1 4s ease-in-out infinite;
+}
+
+.wind-2 {
+  top: 240px;
+  left: 320px;
+  animation: wind-sway-2 4.5s ease-in-out infinite 0.5s;
+}
+
+.wind-3 {
+  top: 260px;
+  left: 390px;
+  animation: wind-sway-3 3.8s ease-in-out infinite 1s;
+}
+
+.wind-4 {
+  top: 245px;
+  left: 460px;
+  animation: wind-sway-4 4.2s ease-in-out infinite 1.5s;
+}
+
+.wind-5 {
+  top: 255px;
+  left: 530px;
+  animation: wind-sway-5 4.8s ease-in-out infinite 2s;
+}
+
+/* 为每个wind元素添加不同的摆动动画 */
+@keyframes wind-sway-1 {
+  0%, 100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(5px) translateY(-3px) rotate(2deg);
+    opacity: 1;
+  }
+}
+
+@keyframes wind-sway-2 {
+  0%, 100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-3px) translateY(-5px) rotate(-1deg);
+    opacity: 0.9;
+  }
+}
+
+@keyframes wind-sway-3 {
+  0%, 100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(4px) translateY(-2px) rotate(1deg);
+    opacity: 1;
+  }
+}
+
+@keyframes wind-sway-4 {
+  0%, 100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(-2px) translateY(-4px) rotate(-2deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes wind-sway-5 {
+  0%, 100% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(3px) translateY(-6px) rotate(1.5deg);
+    opacity: 1;
+  }
+}
+
+/* 添加流动动画效果 */
+@keyframes warm-flow {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    border-radius: 50% 60% 40% 50% / 50% 40% 60% 50%;
+    transform: rotate(2deg) scale(1.05);
+  }
+  50% {
+    border-radius: 40% 50% 60% 40% / 40% 60% 50% 40%;
+    transform: rotate(-1deg) scale(0.95);
+  }
+  75% {
+    border-radius: 70% 30% 50% 60% / 70% 50% 30% 60%;
+    transform: rotate(1deg) scale(1.02);
+  }
+}
+
+@keyframes cold-flow {
+  0%, 100% {
+    border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
+    transform: rotate(-2deg) scale(1.03);
+  }
+  50% {
+    border-radius: 60% 40% 50% 60% / 60% 50% 40% 60%;
+    transform: rotate(1deg) scale(0.97);
+  }
+  75% {
+    border-radius: 30% 70% 40% 50% / 30% 40% 70% 50%;
+    transform: rotate(-1deg) scale(1.01);
+  }
+}
+
+/* 添加背景图片的示例类 */
+.face.with-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Overlay图层样式 */
+.overlay {
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500px;
+  pointer-events: none;
+  /* 允许点击穿透到下层 */
+  transform: translateY(-180px) rotateX(30deg);
+}
+
+.cloud {
+  background-image: url('assets/cloud.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 180px;
+  top: -50px;
+}
+
+.sun {
+  background-image: url('assets/sun.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  right: 150px;
+  top: -50px;
+}
+
+.arrow {
+  position: absolute;
+  top:50%;
+  left:50%;
+}
+
+.arrow::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  transform: translateX(-50%) translateY(5%);
+}
+
+.arrow::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20px;
+}
+
+
+.right {
+  transform: rotate(90deg);
+  top: 100px;
+  left: 600px;
+}
+
+.right::before {
+  border-bottom: 20px solid #acacac;
+}
+
+.right::after {
+  background: linear-gradient(to bottom, #acacac 0%, #acacac78 30%, #acacac44 70%, #acacac00 100%);
+  height: 300px;
+}
+
+.left {
+  transform: rotate(-90deg);
+  top:300px;
+  left: 280px;
+}
+
+.left::before {
+  border-bottom: 20px solid #acacac;
+}
+
+.left::after {
+  background: linear-gradient(to bottom, #acacac 0%, #acacac78 30%, #acacac44 70%, #acacac00 100%);
+  height: 300px;
+}
+
+
+.up {
+  transform: rotate(0deg);
+  top: 100px;
+  left: 280px;
+}
+
+.up::before {
+  border-bottom: 20px solid #f3730a;
+}
+
+.up::after {
+  background: linear-gradient(to bottom, #f3730a 0%, #f3730a78 30%, #f3730a44 70%, #f3730a00 100%);
+  height: 180px;
+}
+
+.down {
+  transform: rotate(180deg);
+  top: 300px;
+  left: 600px;
+}
+
+.down::before {
+  border-bottom: 20px solid #4bc4e9;
+}
+
+.down::after {
+  background: linear-gradient(to bottom, #4bc4e9 0%, #4bc4e978 30%, #4bc4e944 70%, #4bc4e900 100%);
+  height: 180px;
+}
+
+
+/* 箭头悬停效果 */
+.arrow:hover::before,
+.arrow:hover::after {
+  filter: brightness(1.2);
+}
+
+/* 厄尔尼诺动画序列样式 */
+
+/* 步骤0: 风元素变小 */
+#elninoCube.step0 .elnino-wind-1,
+#elninoCube.step0 .elnino-wind-2,
+#elninoCube.step0 .elnino-wind-3,
+#elninoCube.step0 .elnino-wind-4,
+#elninoCube.step0 .elnino-wind-5 {
+  animation: wind-shrink 1.5s ease-in-out forwards;
+}
+
+@keyframes wind-shrink {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+}
+
+/* 步骤1: ocean-cold逐渐变小，直到消失 */
+#elninoCube.step1 .elnino-cold {
+  animation: cold-shrink 1.5s ease-in-out forwards;
+}
+
+@keyframes cold-shrink {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0deg) scale(0);
+    opacity: 0;
+  }
+}
+
+/* 步骤2: ocean-warm宽度增大，并移动到中间 */
+#elninoCube.step2 .elnino-warm {
+  animation: warm-expand 1.5s ease-in-out forwards;
+}
+
+@keyframes warm-expand {
+  0% {
+    width: 200px;
+    left: 170px;
+  }
+  100% {
+    width: 400px;
+    left: 225px;
+  }
+}
+
+/* 步骤3: arrow down变为arrow up */
+#elninoCube.step3 .elnino-down {
+  animation: down-to-up 1.5s ease-in-out forwards;
+}
+
+@keyframes down-to-up {
+  0% {
+    transform: rotate(180deg);
+    top: 300px;
+    left: 600px;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(0deg);
+    top: 100px;
+    left: 600px;
+  }
+}
+
+#elninoCube.step3 .elnino-down::before {
+  animation: down-to-up-color 1.5s ease-in-out forwards;
+}
+
+#elninoCube.step3 .elnino-down::after {
+  animation: down-to-up-color 1.5s ease-in-out forwards;
+}
+
+@keyframes down-to-up-color {
+  0% {
+    border-bottom-color: #4bc4e9;
+    background: linear-gradient(to bottom, #4bc4e9 0%, #4bc4e978 30%, #4bc4e944 70%, #4bc4e900 100%);
+  }
+  100% {
+    border-bottom-color: #f3730a;
+    background: linear-gradient(to bottom, #f3730a 0%, #f3730a78 30%, #f3730a44 70%, #f3730a00 100%);
+  }
+}
+
+/* 步骤4: 原本的sun变为cloud */
+#elninoCube.step4 .elnino-sun {
+  animation: sun-to-cloud 1.5s ease-in-out forwards;
+}
+
+@keyframes sun-to-cloud {
+  0% {
+    background-image: url('assets/sun.png');
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    background-image: url('assets/cloud.png');
+    opacity: 1;
+  }
+}
+
+/* 步骤5: arrow up、arrow left、arrow right的宽度变小 */
+#elninoCube.step5 .elnino-up::after,
+#elninoCube.step5 .elnino-left::after,
+#elninoCube.step5 .elnino-right::after {
+  animation: arrow-width-shrink 1.5s ease-in-out forwards;
+}
+
+@keyframes arrow-width-shrink {
+  0% {
+    width: 8px;
+  }
+  100% {
+    width: 4px;
+  }
+}
+
+/* 步骤6: arrow up变为arrow down，arrow left变为arrow right，同时arrow right变为arrow left */
+#elninoCube.step6 .elnino-up {
+  animation: up-to-down 1.5s ease-in-out forwards;
+}
+
+#elninoCube.step6 .elnino-left {
+  animation: left-to-right 1.5s ease-in-out forwards;
+}
+
+#elninoCube.step6 .elnino-right {
+  animation: right-to-left 1.5s ease-in-out forwards;
+}
+
+/* 恢复箭头宽度 */
+#elninoCube.step6 .elnino-up::after,
+#elninoCube.step6 .elnino-left::after,
+#elninoCube.step6 .elnino-right::after {
+  animation: arrow-width-restore 1.5s ease-in-out forwards;
+}
+
+@keyframes arrow-width-restore {
+  0% {
+    width: 4px;
+  }
+  100% {
+    width: 8px;
+  }
+}
+
+@keyframes up-to-down {
+  0% {
+    transform: rotate(0deg);
+    top: 100px;
+    left: 280px;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(180deg);
+    top: 300px;
+    left: 280px;
+  }
+}
+
+#elninoCube.step6 .elnino-up::before {
+  animation: up-to-down-color 1.5s ease-in-out forwards;
+}
+
+#elninoCube.step6 .elnino-up::after {
+  animation: up-to-down-color 1.5s ease-in-out forwards, arrow-width-restore 1.5s ease-in-out forwards;
+}
+
+@keyframes up-to-down-color {
+  0% {
+    border-bottom-color: #f3730a;
+    background: linear-gradient(to bottom, #f3730a 0%, #f3730a78 30%, #f3730a44 70%, #f3730a00 100%);
+  }
+  100% {
+    border-bottom-color: #4bc4e9;
+    background: linear-gradient(to bottom, #4bc4e9 0%, #4bc4e978 30%, #4bc4e944 70%, #4bc4e900 100%);
+  }
+}
+
+@keyframes left-to-right {
+  0% {
+    transform: rotate(-90deg);
+    top: 300px;
+    left: 280px;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(90deg);
+    top: 300px;
+    left: 600px;
+  }
+}
+
+@keyframes right-to-left {
+  0% {
+    transform: rotate(90deg);
+    top: 100px;
+    left: 600px;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(-90deg);
+    top: 100px;
+    left: 280px;
+  }
+}
+
+/* 步骤7: 原本的cloud变为sun */
+#elninoCube.step7 .elnino-cloud {
+  animation: cloud-to-sun 1.5s ease-in-out forwards;
+}
+
+@keyframes cloud-to-sun {
+  0% {
+    background-image: url('assets/cloud.png');
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    background-image: url('assets/sun.png');
+    opacity: 1;
+  }
+}
